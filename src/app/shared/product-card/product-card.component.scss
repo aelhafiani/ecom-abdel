@@ -1,0 +1,24 @@
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.product-card {
+  height: 100%;
+  min-height: 340px;
+  max-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+    .card-img-top {
+    height: 200px;
+    }
+
+}
+.card-title{
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+

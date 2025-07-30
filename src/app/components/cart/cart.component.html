@@ -1,0 +1,84 @@
+<div class="container py-5">
+  <h2 class="mb-4">Your Cart</h2>
+
+  <div class="row">
+    <!-- Cart Items -->
+    <div class="col-lg-8">
+      <div class="card mb-4" *ngFor="let item of cartItems$ | async">
+        <div class="row g-0 align-items-center p-3">
+          <div class="col-md-2 text-center">
+            <img [src]="item.image" class="img-fluid" alt="{{ item.title }}" />
+          </div>
+          <div class="col-md-4">
+            <h5 class="mb-1">{{ item.title }}</h5>
+            <p class="text-muted mb-0">{{ item.description }}</p>
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="fw-semibold">{{ item.price | currency }}</span>
+          </div>
+          <div class="col-md-2 text-center">
+            <input
+              type="number"
+              min="1"
+              [ngModel]="item.quantity"
+              (ngModelChange)="onQuantityChange(item.id, $event)"
+              class="form-control w-75 mx-auto text-center"
+            />
+          </div>
+          <div class="col-md-2 text-center">
+            <span class="fw-bold">
+              {{ item.price * item.quantity | currency }}
+            </span>
+            <button
+              class="btn btn-sm btn-outline-danger ml-2"
+              (click)="removeFromCart(item.id)"
+              title="Remove item"
+            >
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="col-lg-4">
+      <div class="card p-4 shadow-sm">
+        <h5 class="mb-3">Summary</h5>
+        <p class="text-muted mt-2">Get 10% off when your order exceeds $100.</p>
+        <div class="d-flex justify-content-between">
+          <span>Total Items:</span>
+          <span>{{ totalItems$ | async }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <span>Subtotal:</span>
+          <span>{{
+            totalPrice$ | async | currency : "USD" : "symbol" : "1.2-2"
+          }}</span>
+        </div>
+
+        <div
+          class="d-flex justify-content-between text-success"
+          *ngIf="discountAmount$ | async as discount"
+        >
+          <ng-container *ngIf="discount > 0">
+            <span>Discount (10%)</span>
+            <span>-{{ discount | currency : "USD" : "symbol" : "1.2-2" }}</span>
+          </ng-container>
+        </div>
+
+        <hr />
+
+        <div class="d-flex justify-content-between fw-bold">
+          <span>Total:</span>
+          <span>{{
+            finalPrice$ | async | currency : "USD" : "symbol" : "1.2-2"
+          }}</span>
+        </div>
+
+        <button class="btn btn-primary mt-4 w-100">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>

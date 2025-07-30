@@ -1,0 +1,13 @@
+
+/* Importing Bootstrap SCSS file. */
+@use 'bootstrap/scss/bootstrap';
+/* Now override Bootstrap-generated styles via CSS */
+.btn-primary {
+  background-color: black !important;
+  border-radius: 0.5rem !important;
+  border-color: #000 !important;
+  /* Optional hover override */
+  &:hover {
+    background-color: darken(black, 15%) !important;
+  }
+}

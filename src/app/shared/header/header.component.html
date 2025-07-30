@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+  <!-- Logo -->
+  <a class="navbar-brand" routerLink="/">Elhafiani-Shop</a>
+
+  <!-- Navbar content aligned right -->
+  <div class="ms-auto d-flex align-items-center">
+    <a routerLink="/cart" class="btn btn-outline-light position-relative">
+      <i class="bi bi-cart"></i>
+      <ng-container *ngIf="count$ | async as count">
+        <span
+          *ngIf="count > 0"
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        >
+          {{ count }}
+        </span>
+      </ng-container>
+    </a>
+  </div>
+</nav>
