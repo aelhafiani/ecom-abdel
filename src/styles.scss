@@ -1,4 +1,4 @@
-
+@use "sass:color";
 /* Importing Bootstrap SCSS file. */
 @use 'bootstrap/scss/bootstrap';
 /* Now override Bootstrap-generated styles via CSS */
@@ -8,6 +8,6 @@
   border-color: #000 !important;
   /* Optional hover override */
   &:hover {
-    background-color: darken(black, 15%) !important;
+   background-color: color.adjust(black, $lightness: -15%) !important;
   }
 }

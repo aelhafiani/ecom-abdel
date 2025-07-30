@@ -1,6 +1,8 @@
 <div class="container py-5">
   <h2 class="mb-4">Your Cart</h2>
-
+   <ng-container *ngIf="cartItems$ | async as items">
+ 
+<div *ngIf="items.length > 0 ; else emptyCart">
   <div class="row">
     <!-- Cart Items -->
     <div class="col-lg-8">
@@ -42,7 +44,9 @@
     </div>
 
     <!-- Summary -->
-    <div class="col-lg-4">
+    
+      
+    <div  class="col-lg-4">
       <div class="card p-4 shadow-sm">
         <h5 class="mb-3">Summary</h5>
         <p class="text-muted mt-2">Get 10% off when your order exceeds $100.</p>
@@ -81,4 +85,14 @@
       </div>
     </div>
   </div>
+  </div>
+    <ng-template #emptyCart>
+    <div class="text-center">
+      <h4>Your cart is empty</h4>
+      <p>Add items to your cart to see them here.</p>
+      <a routerLink="/" class="btn btn-primary">Shop Now</a>
+    </div>
+    </ng-template>
+  </ng-container>
+
 </div>

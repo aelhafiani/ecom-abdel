@@ -3,10 +3,11 @@ import { Component,  inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CartFacade } from '../../services/cart.facade';
 import { map } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule,FormsModule,AsyncPipe],
+  imports: [CommonModule,FormsModule,AsyncPipe,RouterModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })

@@ -1,0 +1,22 @@
+.not-found-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #f8f9fa; // light grey background
+  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.not-found-page h1 {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  color: #dc3545; // Bootstrap danger red
+}
+
+.not-found-page h2 {
+  font-size: 2rem;
+  color: #6c757d; // Bootstrap secondary
+}
