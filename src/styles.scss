@@ -3,11 +3,15 @@
 @use 'bootstrap/scss/bootstrap';
 /* Now override Bootstrap-generated styles via CSS */
 .btn-primary {
-  background-color: black !important;
+  background-color: #20c997 !important;
   border-radius: 0.5rem !important;
-  border-color: #000 !important;
+  border: none !important;
   /* Optional hover override */
   &:hover {
    background-color: color.adjust(black, $lightness: -15%) !important;
   }
+}
+
+.bg-dark {
+  background-color: #20c997 !important;
 }
