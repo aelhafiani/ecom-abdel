@@ -22,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     withNgxsStoragePlugin({
             keys: '*'
           })
-), provideClientHydration(withEventReplay())
+), 
+provideClientHydration(withEventReplay())
   ]
 };

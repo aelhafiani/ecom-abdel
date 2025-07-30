@@ -1,45 +1,80 @@
-import { Component, inject, signal } from '@angular/core';
-
-import { ProductService } from '../../services/product.service';
-import { ProductCardComponent } from '../../shared/product-card/product-card.component';
-import { Product } from '../../models/product';
+import {
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ProductCardComponent } from '../../shared/product-card/product-card.component';
 import { ProductFilterComponent } from '../product-filter/product-filter.component';
-import { combineLatest, map, Observable } from 'rxjs';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../models/product';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { combineLatest, BehaviorSubject, map, switchMap, tap } from 'rxjs';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, ProductCardComponent,ProductFilterComponent],
+  standalone: true,
+  imports: [CommonModule, ProductCardComponent, ProductFilterComponent, InfiniteScrollDirective],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss'
+  styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent {
   private productService = inject(ProductService);
 
-  listProducts$ = this.productService.getProducts();
+  // Signals
   selectedCategory = signal('');
-  maxPrice = signal<number | null>(null);
 
-  filteredProducts$: Observable<Product[]> = combineLatest([
-    this.listProducts$,
+  // Pagination
+  private offset = 0;
+  private limit = 20;
+  private hasMore = true;
+  private loading = signal(false);
+  private allProducts = signal<Product[]>([]);
+
+  private loadMoreTrigger$ = new BehaviorSubject<void>(undefined);
+
+  // Reactive product stream
+  filteredProducts$ = combineLatest([
     toObservable(this.selectedCategory),
-    toObservable(this.maxPrice),
+    this.loadMoreTrigger$
   ]).pipe(
-    map(([products, category, price]) =>
-      products.filter((product) => {
-        const matchCategory = !category || product.category === category;
-        const matchPrice = price == null || product.price <= price;
-        return matchCategory && matchPrice;
-      })
-    )
+    tap(() => this.loading.set(true)),
+    switchMap(([category]) =>
+      this.productService.getProductsFiltred({
+        category: category || undefined,
+        limit: this.limit,
+        skip: this.offset
+      }).pipe(
+        tap((res) => {
+          const total = res.total;
+          this.allProducts.update(prev => [...prev, ...res.products]);
+          this.offset += this.limit;
+           if (this.allProducts().length >= total) {
+            this.hasMore = false;
+          }
+          this.loading.set(false);
+        })
+      )
+    ),
+    map(() => this.allProducts())
   );
 
-  onCategoryChange(category: string) {
-    this.selectedCategory.set(category);
+  // Infinite scroll
+  onScrollDown() {
+    if (!this.loading() && this.hasMore) {
+      this.loadMoreTrigger$.next();
+    }
   }
 
-  onMaxPriceChange(price: number | null) {
-    this.maxPrice.set(price);
+  // On category change
+  onCategoryChange(category: string) {
+    this.selectedCategory.set(category);
+     this.offset = 0;
+    this.hasMore = true;
+    this.allProducts.set([]);
+ 
   }
+
+
 }

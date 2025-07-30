@@ -11,22 +11,19 @@ import { FormsModule } from '@angular/forms';
 export class ProductFilterComponent {
 
   @Output() categoryChange = new EventEmitter<string>();
-  @Output() maxPriceChange = new EventEmitter<number | null>();
 
   selectedCategory = '';
   selectedMaxPrice: number | null = null;
   categories = [
   '', // All
-  "men's clothing",
-  'jewelery',
-  'electronics',
-  "women's clothing",
+  "beauty",
+  "fragrances",
+  "furniture",
+  "groceries"
 ];
   onCategoryChange() {
     this.categoryChange.emit(this.selectedCategory);
   }
 
-  onPriceChange() {
-    this.maxPriceChange.emit(this.selectedMaxPrice);
-  }
+
 }

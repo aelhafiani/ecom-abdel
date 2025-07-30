@@ -9,7 +9,7 @@
       <div class="card mb-4" *ngFor="let item of cartItems$ | async">
         <div class="row g-0 align-items-center p-3">
           <div class="col-md-2 text-center">
-            <img [src]="item.image" class="img-fluid" alt="{{ item.title }}" />
+            <img [src]="item.thumbnail" class="img-fluid" alt="{{ item.title }}" />
           </div>
           <div class="col-md-4">
             <h5 class="mb-1">{{ item.title }}</h5>
